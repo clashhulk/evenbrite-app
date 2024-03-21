@@ -67,7 +67,7 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'/client1/build')],
+        'DIRS': [os.path.join(BASE_DIR,'/client/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,7 +133,7 @@ APPEND_SLASH = False
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'client1/build/static')
+    os.path.join(BASE_DIR,'client/build/static')
 ]
 
 # Default primary key field type

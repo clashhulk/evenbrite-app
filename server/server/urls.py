@@ -4,7 +4,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from events.views import EventView,EventLikedView,UserView
+from events.views import EventView,EventLikedView,UserView,LoginView
 from rest_framework import routers
 
 
@@ -12,6 +12,7 @@ from rest_framework import routers
 route = routers.DefaultRouter()
 route.register("events", EventView , basename="eventview")
 route.register("signup", UserView , basename="userview")
+route.register("login", LoginView , basename="loginview")
 route.register("liked-event", EventLikedView , basename="eventlikedview")
 
 

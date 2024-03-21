@@ -13,7 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
         model = Users
         fields = '__all__'
         
-
+class SignInSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ['email', 'password']
 # class UserSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Users

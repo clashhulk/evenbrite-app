@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import os
+import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-xt-m#kq*1ljw#nxsvg(s&o_$r2vn1&+tv1p^y%1n5el#+_l055
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','.vercel.app']
+ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1']
 
 
 # Application definition
@@ -85,14 +87,9 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'events_db',
-        'USER':'root',
-        'Password':'',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
-    }
+    'default': dj_database_url.config(
+        default="postgres://root:6GxeVaUtugbinTDb0pjslMFlcgiCzW5v@dpg-cnu6foq1hbls73fc78r0-a.oregon-postgres.render.com/events_db_arsw"
+    )
 }
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']

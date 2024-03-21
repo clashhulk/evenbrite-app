@@ -5,26 +5,35 @@ import { Button, FormGroup, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 
-export default function Login() {
+export default function Signup() {
   const navigate = useNavigate();
+  const [user_name, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     try {
-      const url = "http://localhost:8000/api/login";
-      const response = await axios.post(url, {
+      const response = await axios.post("http://localhost:8000/api/signup/", {
+        user_name: user_name,
         email: email,
         password: password,
       });
+      toast.success("Registration successful!", {
+        onClose: () => navigate("/login"), // Navigate to login page after toast is closed
+      });
+      // Optionally, you can redirect the user to another page or show a success message
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Something went wrong. Please try again later.");
+      }
     }
   };
-
   return (
     <Box
       sx={{
@@ -75,13 +84,21 @@ export default function Login() {
               <h1 style={{ fontWeight: 800 }}>
                 Hello <span style={{ color: "red" }}>User</span>
               </h1>
-              <h3>Login</h3>
-
+              <h3>Sign Up</h3>
+              <TextField
+                required
+                id="username"
+                label="Full Name"
+                style={{ width: 350 }}
+                size="small"
+                value={user_name}
+                onChange={(e) => setUserName(e.target.value)}
+              />
               <TextField
                 required
                 id="email"
                 label="Email Id"
-                style={{ width: 350 }}
+                style={{ width: 350, marginTop: 10 }}
                 size="small"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -101,10 +118,10 @@ export default function Login() {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ backgroundColor: "red", width: 350, marginTop: 33 }}
                 onClick={handleSubmit}
+                style={{ backgroundColor: "red", width: 350, marginTop: 33 }}
               >
-                Login
+                Sign Up
               </Button>
             </div>
           </div>

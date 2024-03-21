@@ -14,16 +14,26 @@ import { Grid } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const ShowEvent = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+  const [hoveredCardId, setHoveredCardId] = useState(null);
+  const [clickedCardId, setClickedCardId] = useState(null);
 
-  const handleHover = () => {
-    setIsHovered(!isHovered);
+  const handleHover = (id) => {
+    setHoveredCardId(id); // Set the hovered card ID
   };
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
+  const handleClick = async (id) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/update-like-status/${id}/`
+      );
+
+      console.log(response.data); // Assuming backend returns some data
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    setClickedCardId(id); // Set the clicked card ID
   };
+
   const [events, setEvents] = useState([]);
   const getEvents = async () => {
     const res = await axios.get("http://localhost:8000/api/events");
@@ -112,9 +122,9 @@ const ShowEvent = () => {
                     <IconButton
                       href={`${eve.id}`}
                       type="submit"
-                      onMouseEnter={handleHover}
-                      onMouseLeave={handleHover}
-                      onClick={handleClick}
+                      onMouseEnter={() => handleHover(eve.id)}
+                      onMouseLeave={() => handleHover(null)}
+                      onClick={() => handleClick(eve.id)}
                       sx={{
                         borderWidth: "1px",
                         borderStyle: "solid",
@@ -122,7 +132,10 @@ const ShowEvent = () => {
                         borderRadius: "50%",
                       }}
                     >
-                      {isClicked || isHovered ? (
+                      {/* Apply red color based on hovered/clicked state of the card */}
+                      {eve.is_liked ||
+                      clickedCardId === eve.id ||
+                      hoveredCardId === eve.id ? (
                         <FavoriteIcon style={{ color: "red" }} />
                       ) : (
                         <FavoriteBorderIcon fontSize="small" />

@@ -72,6 +72,13 @@ function NavbarMenu() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    // Remove token from local storage
+    localStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login");
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "whitesmoke" }}>
       <Container maxWidth="xl">
@@ -146,14 +153,7 @@ function NavbarMenu() {
               >
                 ADD EVENT
               </Button>
-              <Button
-                sx={{ my: 2, color: "grey", display: "block" }}
-                onClick={() => {
-                  navigate("/added-events");
-                }}
-              >
-                added events
-              </Button>
+
               <Button
                 sx={{ my: 2, color: "grey", display: "block" }}
                 onClick={() => {
@@ -200,11 +200,17 @@ function NavbarMenu() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map((setting) =>
+                setting === "Logout" ? (
+                  <MenuItem key={setting} onClick={handleLogout}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
         </Toolbar>

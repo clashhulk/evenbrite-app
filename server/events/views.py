@@ -2,9 +2,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Event,Users
-from .serializers import EventSerializer,UserSerializer,SignInSerializer
+from rest_framework import generics, permissions
+from django.http import JsonResponse
+from django.views.generic import ListView
+from .serializers import EventSerializer,UserSerializer,LoginSerializer
 from rest_framework import status
+from django.views import View
 from rest_framework.decorators import api_view
+from django.views.decorators.http import require_POST
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login, get_user_model
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 class EventView(viewsets.ModelViewSet):
     queryset = Event.objects.all().order_by('-id')
     serializer_class = EventSerializer
+    
     
     def get(self, request):
         # Your logic for handling GET requests here
@@ -27,75 +33,59 @@ class EventView(viewsets.ModelViewSet):
         )
         serializer = self.get_serializer(event)
         return Response(serializer.data)
-
-class EventLikedView(viewsets.ModelViewSet):
-    queryset=Event.objects.filter(is_liked=True)
-    serializer_class = EventSerializer
-    
-    def get(self, request):
-        return EventSerializer
-    
     
 
 class UserView(viewsets.ModelViewSet):
     queryset = Users.objects.all().order_by('-id')
     serializer_class = UserSerializer
     
-    def create(self, request,*args, **kwargs):
-        serializer = UserSerializer(data=request.data)
+    def create(self, request):
+        # Check if email already exists
+        print("Hi in requested user view")
+        email = request.data.get("email")
+        if Users.objects.filter(email=email).exists():
+            return Response(
+                {"error": "Email ID already registered"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Create user
+        user = Users.objects.create(
+            user_name=request.data.get("user_name"),
+            email=email,
+            password=request.data.get("password"),
+        )
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+
+class EventLikedView(viewsets.ModelViewSet):
+    queryset = Event.objects.all().order_by('-id')
+    serializer_class = EventSerializer  
+    permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        return Event.objects.filter(is_liked=True)
+    
+    
+@csrf_exempt
+def update_like_status(request, event_id):
+    try:
+        event = Event.objects.get(pk=event_id)
+        event.is_liked = not event.is_liked
+        print(event.is_liked)
+        print(request)
+        event.save()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+    
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            # Hashing password before storing
-            user.save()
-            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-        return Response({'message': 'Failed to create user'}, status=status.HTTP_400_BAD_REQUEST)
-
-class LoginView(viewsets.ModelViewSet):
-    serializer_class = SignInSerializer  # Define the serializer class here
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        email = serializer.validated_data.get('email')
-        password = serializer.validated_data.get('password')
-        
-        # Retrieve the user from the database based on the provided email
-        try:
-            user = Users.objects.get(email=email)
-        except Users.DoesNotExist:
-            # User with the provided email does not exist
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-        try:
-            # Retrieve the user from the database based on the provided email and password
-            user = Users.objects.get(email=email, password=password)
-            # If the user is found, return a success message
-            return Response({'message': 'User signed in successfully'}, status=status.HTTP_200_OK)
-        except Users.DoesNotExist:
-            # If the user is not found or the password is incorrect, return an error message
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-        # Manually compare the provided password with the user's password
-        # if user.check_password(password):
-        #     # Passwords match, user authenticated
-        #     return Response({'message': 'User signed in successfully'}, status=status.HTTP_200_OK)
-        # else:
-        #     # Passwords do not match
-        #     return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)# class UserView(APIView):
-#     def post(self, request):
-#         user_name = request.data.get('user_name')
-#         email = request.data.get('email')
-#         password = request.data.get('password')
-
-#         if user_name and email and password:
-#             user = Users.objects.create(
-#                 user_name=user_name,
-#                 email=email,
-#                 password=password
-#             )
-#             return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
-
-
+            user = serializer.validated_data['user']
+            # You can perform further actions here with the authenticated user
+            return Response({"message": "Login successful!"}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

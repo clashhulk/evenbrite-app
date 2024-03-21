@@ -8,7 +8,6 @@ import NavbarMenu from "./Components/NavbarMenu";
 import Signup from "./Components/Signup";
 import Home from "./Components/Home";
 import Footer from "./Components/Footer";
-import Likes from "./Components/Likes";
 import AddedEvents from "./Components/AddedEvents";
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/addedbyuser" element={<AddedEvents />} />
-          <Route exact path="/likes" element={<Likes />} />
           <Route exact path="/show-events" element={<ShowEvent />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/sign-up" element={<Signup />} />

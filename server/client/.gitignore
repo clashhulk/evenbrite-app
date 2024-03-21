@@ -1,1 +1,16 @@
-/node_modules
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Build files
+/build
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db

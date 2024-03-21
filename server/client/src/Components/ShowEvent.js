@@ -36,7 +36,7 @@ const ShowEvent = () => {
   const [events, setEvents] = useState([]);
   const getEvents = async () => {
     const res = await axios.get(
-      "https://evenbrite-app.onrender.com/api/events"
+      "https://evenbrite-app.onrender.com/api/events/"
     );
     console.log(res.data[0].date);
     setEvents(res.data);

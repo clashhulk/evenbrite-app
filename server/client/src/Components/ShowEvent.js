@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import NavbarMenu from "./NavbarMenu";
-import axios from "axios";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { format } from "date-fns";
-import { Grid } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import { Grid } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 
 const ShowEvent = () => {
   const [hoveredCardId, setHoveredCardId] = useState(null);
@@ -24,7 +23,7 @@ const ShowEvent = () => {
   const handleClick = async (id) => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/update-like-status/${id}/`
+        `https://evenbrite-app.onrender.com/api/update-like-status/${id}/`
       );
 
       console.log(response.data); // Assuming backend returns some data
@@ -36,7 +35,9 @@ const ShowEvent = () => {
 
   const [events, setEvents] = useState([]);
   const getEvents = async () => {
-    const res = await axios.get("http://localhost:8000/api/events");
+    const res = await axios.get(
+      "https://evenbrite-app.onrender.com/api/events"
+    );
     console.log(res.data[0].date);
     setEvents(res.data);
   };

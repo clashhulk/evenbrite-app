@@ -1,23 +1,16 @@
-import {
-  Box,
-  Button,
-  FormGroup,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import dayjs from "dayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import React, { useState } from "react";
-import { DateTimePicker } from "@mui/x-date-pickers-pro";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import NavbarMenu from "./NavbarMenu";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
+
+import { Box, Button, FormGroup, Paper, Stack, TextField, Typography } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+
 const tomorrow = dayjs().add(1, "day");
 const AddEvent = () => {
   function formatDate(inputDate) {
@@ -85,7 +78,7 @@ const AddEvent = () => {
     console.log(formField);
     await axios({
       method: "POST",
-      url: "http://localhost:8000/api/events/",
+      url: "https://evenbrite-app.onrender.com/api/events/",
       data: formField,
     })
       .then((res) => {

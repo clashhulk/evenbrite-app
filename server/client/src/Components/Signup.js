@@ -1,12 +1,13 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { Button, FormGroup, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
-import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
+
+import { Button, FormGroup, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,11 +18,14 @@ export default function Signup() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/signup/", {
-        user_name: user_name,
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        "https://evenbrite-app.onrender.com/api/signup/",
+        {
+          user_name: user_name,
+          email: email,
+          password: password,
+        }
+      );
       toast.success("Registration successful!", {
         onClose: () => navigate("/login"), // Navigate to login page after toast is closed
       });

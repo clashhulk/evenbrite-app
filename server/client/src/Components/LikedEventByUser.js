@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import NavbarMenu from "./NavbarMenu";
-import axios from "axios";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { format } from "date-fns";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 
 const LikedEventByUser = (eventId) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -22,7 +21,7 @@ const LikedEventByUser = (eventId) => {
 
   const handleClick = async () => {
     try {
-      await axios.post(`http://localhost:8000/api/${eventId}/`);
+      await axios.post(`https://evenbrite-app.onrender.com/api/${eventId}/`);
       setIsClicked(!isClicked);
     } catch (error) {
       console.error("Error liking event:", error);
@@ -31,7 +30,9 @@ const LikedEventByUser = (eventId) => {
 
   const [events, setEvents] = useState([]);
   const getEvents = async () => {
-    const res = await axios.get("http://localhost:8000/api/liked-event");
+    const res = await axios.get(
+      "https://evenbrite-app.onrender.com/api/liked-event"
+    );
     console.log(res.data[0].date);
     setEvents(res.data);
   };

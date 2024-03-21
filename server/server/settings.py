@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-import os
 import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +27,7 @@ SECRET_KEY = 'django-insecure-xt-m#kq*1ljw#nxsvg(s&o_$r2vn1&+tv1p^y%1n5el#+_l055
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1','evenbrite-app.onrender.com']
+
 
 
 # Application definition
@@ -64,25 +64,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'server.urls'
 
-# TEMPLATES = [
-#     {
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [os.path.join(BASE_DIR,'/client/build')],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'context_processors': [
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.contrib.messages.context_processors.messages',
-#             ],
-#         },
-#     },
-# ]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'client' / 'build'],
+        'DIRS': [os.path.join(BASE_DIR,'/client1/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,6 +91,7 @@ DATABASES = {
         default="postgres://root:6GxeVaUtugbinTDb0pjslMFlcgiCzW5v@dpg-cnu6foq1hbls73fc78r0-a.oregon-postgres.render.com/events_db_arsw"
     )
 }
+
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 
@@ -145,10 +131,10 @@ APPEND_SLASH = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'client' / 'build' / 'static'
+    os.path.join(BASE_DIR,'client1/build/static')
 ]
 
 # Default primary key field type
@@ -159,5 +145,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 MEDIA_URL = '/media/'
-
-STATIC_ROOT = '/static/'

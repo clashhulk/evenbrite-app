@@ -14,7 +14,7 @@ from pathlib import Path
 import dj_database_url
 from django.http import HttpResponse
 from django.conf import settings
-
+import mimetypes
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,7 +95,7 @@ DATABASES = {
 }
 
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000','evenbrite-app-ui.onrender.com','https://evenbrite-app-ui.onrender.com']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000','https://evenbrite-app-ui.onrender.com']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -133,6 +133,9 @@ MIME_TYPES = {
     '.js': 'text/javascript',
     '.css': 'text/css',
 }
+mimetypes.add_type("text/javascript", ".js", True)
+mimetypes.add_type("text/css", ".css", True)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 

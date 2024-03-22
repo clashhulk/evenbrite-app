@@ -95,7 +95,7 @@ DATABASES = {
 }
 
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000','evenbrite-app-ui.onrender.com','https://evenbrite-app-ui.onrender.com']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -133,10 +133,6 @@ MIME_TYPES = {
     '.js': 'text/javascript',
     '.css': 'text/css',
 }
-def my_view(request):
-    response = HttpResponse()
-    response['Content-Type'] = 'text/javascript'
-    return response
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 

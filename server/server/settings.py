@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+from django.http import HttpResponse
+from django.conf import settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,7 @@ SECRET_KEY = 'django-insecure-xt-m#kq*1ljw#nxsvg(s&o_$r2vn1&+tv1p^y%1n5el#+_l055
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1','evenbrite-app.onrender.com']
+ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1','evenbrite-app.onrender.com','evenbrite-app-ui.onrender.com']
 
 
 
@@ -126,7 +129,14 @@ USE_TZ = True
 
 APPEND_SLASH = False
 
-
+MIME_TYPES = {
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+}
+def my_view(request):
+    response = HttpResponse()
+    response['Content-Type'] = 'text/javascript'
+    return response
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 

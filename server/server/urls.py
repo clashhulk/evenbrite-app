@@ -28,8 +28,6 @@ urlpatterns = [
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/', include(route.urls)),
     path('',views.index,name='index'),
-    re_path(r"^$", render_react),
-    re_path(r"^(?:.*)/?$", render_react),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
